@@ -1,0 +1,19 @@
+{
+        "name": "fluharvest",
+        "version": "0.0.1",
+        "description": "Pulls flu data from CDC and puts it into Cloudant",
+        "dependencies": {
+                "express": "4.x",
+                "request": "2.48.x",
+                "cron": "1.0.5", 
+				"xml2js": "0.4.x", 
+                "cloudant": "*"
+        },
+        "engines": {
+                "node": "0.10.26"
+        },
+		"scripts": {
+			"start": "node app.js"
+		},
+        "repository": {}
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Cloudant US Flu report API</title>
+		<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900,300italic,400italic,600italic,900italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<link rel='stylesheet' id='869200f85a0d637aaf566eb96c222962-css'  href='//cloudant.com/wp-content/themes/cloudant/style.css?ver=531d09ab379f2b486866f03fec6c12cd' type='text/css' media='all' />
+	</head>
+<body>
+	<img src="https://cloudant.com/wp-content/themes/cloudant/images/ibm_cloudant.png"/>
+	<section class="container content">
+		<h2>Flu data API</h2>
+		<ul>
+		<li>Get the latest week's flu data with this request: <br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="/latest">http://fluharvest.mybluemix.net/latest</a></li>
+		<li>Or get the report for a single state by providing it's abbreviation in the request: <br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="/latest?state=CA">http://fluharvest.mybluemix.net/latest?state=CA</a></li>
+		<li>You can also get this data in a map-ready format by requesting the report information be attached to state geographies: <br/>
+			&nbsp;&nbsp;&nbsp;&nbsp;<a href="/latest?geo=true">http://fluharvest.mybluemix.net/latest?geo=true</a></li>
+		</ul>
+
+		<h2><a href="map.html">Map-based user interface</a></h2>
+
+		<h2>Credits</h2>
+		Thanks to the US Centers for Disease Control (CDC) for their <a href="http://www.cdc.gov/flu/weekly/" target="_blank">flu data site</a>.
+	</section>
+</body>
+</html>

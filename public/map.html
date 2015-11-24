@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>US Flu Spread</title>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,900,300italic,400italic,600italic,900italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link rel='stylesheet' id='869200f85a0d637aaf566eb96c222962-css'  href='//cloudant.com/wp-content/themes/cloudant/style.css?ver=531d09ab379f2b486866f03fec6c12cd' type='text/css' media='all' />
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" type="text/css" />
+	<style>
+	.legend {
+	    line-height: 24px;
+	    color: #333;
+		background-color: #ccc;
+	}
+	.legend i {
+	    width: 18px;
+	    height: 18px;
+	    float: left;
+	    margin-right: 8px;
+	    opacity: 0.7;
+	}
+	</style>
+</head>
+<body>
+	<img src="https://cloudant.com/wp-content/themes/cloudant/images/ibm_cloudant.png"/>
+	<section id="home-product" class="container content">
+		<div class="row-fluid">
+			<h2 class="product_header">US Flu Spread</h2>
+			<p style="text-align:center;color:#FFF;padding=1em">Choose a week to display: 
+			<select id="weekpicker" name="sel" onchange="getFluData(this.options[this.selectedIndex].text)">
+				<option value="2015-45">2015-45</option>
+				<option value="2015-44">2015-44</option>
+				<option value="2015-43">2015-43</option>
+				<option value="2015-42">2015-42</option>
+				<option value="2015-41">2015-41</option>
+				<option value="2015-40">2015-40</option>
+			</select>
+			</p>
+			<div id="map" style="height:400px"></div>
+		</div>
+	</section>
+
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+	<script>
+	var states = null;
+	var map = L.map('map', {
+		attributionControl: false,
+		center: L.latLng(38, -90), 
+		zoom: 4
+	});
+
+	L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		maxZoom: 20,
+		detectRetina: true,
+		id: 'examples.map-20v6611k'
+	}).addTo(map);
+	
+	// put a legend on the map
+	var legend = L.control({position: 'bottomright'});
+	legend.onAdd = function(map) {
+	    var div = L.DomUtil.create('div', 'info legend'),
+	        grades = [0, 1, 2, 3, 4, 5],
+	        labels = ['No Report', 'No Activity', 'Sporadic', 'Local', 'Regional', 'Widespread'];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < grades.length; i++) {
+	        div.innerHTML +=
+			'<i style="background:' + getColor(grades[i]) + '"></i> ' + labels[i] + '<br/>';
+	    }
+	    return div;
+	};
+	legend.addTo(map);	
+	
+	getFluData( $('#weekpicker option:selected').text() );
+	
+	// grab data
+	function getFluData(week) {
+		// var q = 'http://localhost:3000/latest?geo=true';
+		var q = '/query?geo=true&week='+week;
+		$.getJSON(q, function(data) {
+			console.log('called '+q);
+		})
+		.done(function(data) {
+			if ( states ) states.clearLayers();
+			states = L.geoJson( data, { style: getStyle } );
+			states.addTo(map);
+		});
+	}
+	
+	function getStyle(feature) {
+		return {
+			fillColor: getColor(feature.properties.flurank), 
+			weight: 2, 
+			opacity: 1, 
+			color: 'white', 
+			dashArray: '3', 
+			fillOpacity: 0.6
+		};
+	}
+	
+	function getColor(d) {
+		return  d > 5 ? '#800026' : 
+				d > 4 ? '#BD0026' : 
+				d > 3 ? '#E31A1C' : 
+				d > 2 ? '#FC4E2A' : 
+				d > 1 ? '#FEB24C' : 
+				d > 0 ? '#FFEDA0' : 
+						'#FFFFFF';
+	}
+	</script>
+</body>
+</html>
